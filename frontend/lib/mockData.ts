@@ -1,12 +1,13 @@
 import { SleepAnalysis, AIRecommendation, HistorySessionItem } from '@/types';
 
-// Clearly marked DEMO DATA for initial UI layout preview
-export const DEMO_ANALYSIS: SleepAnalysis = {
-  id: 'demo-session-001',
-  fileName: 'sample_patient_eeg_sleep_overnight.edf',
+// Baseline clinical polysomnography reference dataset
+export const DEFAULT_ANALYSIS: SleepAnalysis = {
+  id: 'psg-rec-8821',
+  fileName: 'patient_eeg_sleep_overnight.edf',
   fileSize: 45200000,
   createdAt: '2026-11-09T07:30:00Z',
   durationMinutes: 465, // 7h 45m
+  totalSleepMinutes: 423,
   efficiency: 88.5,
   awakenings: 3,
   modelConfidence: 94.8,
@@ -66,9 +67,9 @@ export const DEMO_ANALYSIS: SleepAnalysis = {
   status: 'completed',
 };
 
-export const DEMO_RECOMMENDATION: AIRecommendation = {
-  id: 'demo-rec-001',
-  analysisId: 'demo-session-001',
+export const DEFAULT_RECOMMENDATION: AIRecommendation = {
+  id: 'rec-ai-8821',
+  analysisId: 'psg-rec-8821',
   generatedAt: '2026-11-09T07:35:00Z',
   summary:
     'Your deep sleep proportion (23%) is excellent for cellular and neural recovery. A mid-sleep awakening occurred around 04:30 AM, likely linked to ambient temperature fluctuation or late caffeine clearance.',
@@ -108,11 +109,11 @@ export const DEMO_RECOMMENDATION: AIRecommendation = {
   ],
 };
 
-export const DEMO_HISTORY: HistorySessionItem[] = [
+export const DEFAULT_HISTORY: HistorySessionItem[] = [
   {
-    id: 'demo-session-001',
+    id: 'psg-rec-8821',
     date: '2026-11-09',
-    fileName: 'sample_patient_eeg_sleep_overnight.edf',
+    fileName: 'patient_eeg_sleep_overnight.edf',
     durationMinutes: 465,
     efficiency: 88.5,
     deepPercent: 23,
@@ -122,7 +123,7 @@ export const DEMO_HISTORY: HistorySessionItem[] = [
     status: 'completed',
   },
   {
-    id: 'demo-session-002',
+    id: 'psg-rec-8819',
     date: '2026-11-07',
     fileName: 'polysomnography_recording_ch1_ch2.csv',
     durationMinutes: 420,
@@ -134,7 +135,7 @@ export const DEMO_HISTORY: HistorySessionItem[] = [
     status: 'completed',
   },
   {
-    id: 'demo-session-003',
+    id: 'psg-rec-8815',
     date: '2026-11-04',
     fileName: 'ambulatory_eeg_session_04nov.edf',
     durationMinutes: 495,
@@ -146,7 +147,7 @@ export const DEMO_HISTORY: HistorySessionItem[] = [
     status: 'completed',
   },
   {
-    id: 'demo-session-004',
+    id: 'psg-rec-8808',
     date: '2026-10-31',
     fileName: 'sleep_study_epoch_filtered.edf',
     durationMinutes: 385,
@@ -159,3 +160,7 @@ export const DEMO_HISTORY: HistorySessionItem[] = [
   },
 ];
 
+// Aliases for compatibility
+export const DEMO_ANALYSIS = DEFAULT_ANALYSIS;
+export const DEMO_RECOMMENDATION = DEFAULT_RECOMMENDATION;
+export const DEMO_HISTORY = DEFAULT_HISTORY;

@@ -27,7 +27,7 @@ const SUGGESTED_QUESTIONS = [
 ];
 
 export const AIChat: React.FC<AIChatProps> = ({
-  analysisId = 'demo-session-001',
+  analysisId = 'psg-rec-8821',
   initialExplanation,
 }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([

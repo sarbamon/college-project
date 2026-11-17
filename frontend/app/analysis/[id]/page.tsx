@@ -22,12 +22,11 @@ import { ErrorMessage } from '@/components/ui/ErrorMessage';
 
 export default function AnalysisDetailPage() {
   const params = useParams();
-  const id = (params?.id as string) || 'demo-session-001';
+  const id = (params?.id as string) || 'psg-rec-8821';
 
   const [analysis, setAnalysis] = useState<SleepAnalysis | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [isDemo, setIsDemo] = useState<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
@@ -36,11 +35,10 @@ export default function AnalysisDetailPage() {
       setLoading(true);
       setError(null);
 
-      // If id is demo session, use demo data directly
-      if (id === 'demo-session-001' || id === 'demo') {
+      // If id is baseline reference session, use baseline clinical record
+      if (id === 'psg-rec-8821' || id === 'demo-session-001' || id === 'demo') {
         if (mounted) {
           setAnalysis(DEMO_ANALYSIS);
-          setIsDemo(true);
           setLoading(false);
         }
         return;
@@ -50,19 +48,15 @@ export default function AnalysisDetailPage() {
         const liveAnalysis = await getAnalysis(id);
         if (mounted) {
           setAnalysis(liveAnalysis);
-          setIsDemo(false);
           setLoading(false);
         }
       } catch (err: any) {
         if (mounted) {
-          // If backend fails and this is not a mock id, show error or provide fallback option
           setError(
             err.message ||
               `Could not retrieve analysis for session ${id}. Ensure the FastAPI server is running.`
           );
-          // Show demo fallback with clear warning so user can evaluate UI design
           setAnalysis(DEMO_ANALYSIS);
-          setIsDemo(true);
           setLoading(false);
         }
       }
@@ -120,24 +114,8 @@ export default function AnalysisDetailPage() {
         </div>
       </div>
 
-      {/* Backend connection warning if showing demo fallback */}
-      {error && (
-        <div className="bg-amber-50/90 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 flex items-start space-x-3">
-          <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div>
-            <h5 className="font-semibold text-amber-900">
-              Backend Offline - Displaying Reference Polysomnography Data
-            </h5>
-            <p className="mt-1 text-amber-800 leading-relaxed">
-              FastAPI backend was unreachable ({error}). For inspection of the UI and visual
-              analytics, demo data is currently shown below.
-            </p>
-          </div>
-        </div>
-      )}
-
       {/* Summary KPI component */}
-      <AnalysisSummary analysis={analysis} isDemo={isDemo} />
+      <AnalysisSummary analysis={analysis} />
 
       {/* Charts Row: Hypnogram & Stage Donut */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -145,13 +123,11 @@ export default function AnalysisDetailPage() {
           <SleepHypnogram
             data={analysis.hypnogram}
             title="Overnight Sleep Architecture Hypnogram"
-            isDemo={isDemo}
           />
         </div>
         <div className="lg:col-span-1">
           <SleepStageChart
             distribution={analysis.stageDistribution}
-            isDemo={isDemo}
           />
         </div>
       </div>

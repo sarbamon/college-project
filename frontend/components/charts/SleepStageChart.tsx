@@ -60,11 +60,6 @@ export const SleepStageChart: React.FC<SleepStageChartProps> = ({
           <h4 className="text-sm font-semibold text-slate-900">{title}</h4>
           <p className="text-xs text-slate-500">Breakdown of polysomnography epochs</p>
         </div>
-        {isDemo && (
-          <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-            Demo Data
-          </span>
-        )}
       </div>
 
       <div className="h-64 w-full">

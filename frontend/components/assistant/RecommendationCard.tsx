@@ -61,12 +61,6 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({
             </p>
           </div>
         </div>
-
-        {isDemo && (
-          <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 self-start sm:self-center">
-            Demo Output
-          </span>
-        )}
       </div>
 
       {/* Synthesis summary */}

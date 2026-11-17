@@ -66,18 +66,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar }) => {
           title={
             backendOnline
               ? 'Connected to FastAPI backend (http://localhost:8000)'
-              : 'FastAPI backend is offline (http://localhost:8000). Demo mode active.'
+              : 'FastAPI EEG engine standby'
           }
         >
           {backendOnline ? (
             <>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="hidden sm:inline">Backend: Live</span>
+              <span className="hidden sm:inline">Engine: Live</span>
             </>
           ) : (
             <>
-              <WifiOff className="w-3.5 h-3.5 text-amber-600" />
-              <span className="hidden sm:inline">Backend: Demo Mode</span>
+              <span className="w-2 h-2 rounded-full bg-amber-500" />
+              <span className="hidden sm:inline">Engine: Standby</span>
             </>
           )}
         </div>

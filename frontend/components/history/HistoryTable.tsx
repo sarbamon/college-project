@@ -56,11 +56,6 @@ export const HistoryTable: React.FC<HistoryTableProps> = ({
             <h3 className="text-base font-bold text-slate-900">
               EEG Sleep Recording Archive
             </h3>
-            {isDemo && (
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                Demo Archive
-              </span>
-            )}
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
             Total {sessions.length} polysomnography sessions analyzed

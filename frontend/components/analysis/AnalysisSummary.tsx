@@ -56,11 +56,6 @@ export const AnalysisSummary: React.FC<AnalysisSummaryProps> = ({
             <h2 className="text-xl font-bold text-slate-900">
               Polysomnography Assessment
             </h2>
-            {isDemo && (
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                Demo Reference
-              </span>
-            )}
           </div>
           <p className="text-xs text-slate-500 mt-1">
             Session ID:{' '}

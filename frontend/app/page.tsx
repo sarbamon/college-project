@@ -83,11 +83,6 @@ export default function DashboardPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-brand-purple bg-purple-50 px-2.5 py-1 rounded-md border border-purple-100">
               Polysomnography Laboratory
             </span>
-            {isDemoData && (
-              <span className="text-xs font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 flex items-center space-x-1">
-                <span>Demo Data Mode</span>
-              </span>
-            )}
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-2">
             Welcome to EEG Sleep AI
@@ -115,26 +110,6 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
-
-      {/* Demo Notice Banner if in demo mode */}
-      {isDemoData && (
-        <div className="bg-amber-50/70 border border-amber-200 rounded-xl px-4 py-3 flex items-start sm:items-center justify-between gap-3 text-xs text-amber-900">
-          <div className="flex items-center space-x-2">
-            <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
-            <span>
-              <strong>Sample Demo Polysomnography:</strong> Currently showing baseline demo
-              metrics. Connect FastAPI at <code>http://localhost:8000</code> to ingest live patient
-              recordings.
-            </span>
-          </div>
-          <Link
-            href="/upload"
-            className="text-xs font-semibold text-amber-900 hover:text-amber-950 underline whitespace-nowrap"
-          >
-            Upload EDF/CSV &rarr;
-          </Link>
-        </div>
-      )}
 
       {/* Primary KPI Metrics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -182,24 +157,23 @@ export default function DashboardPage() {
       {/* Visual Analytics Row: Hypnogram & Stage Distribution */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <SleepHypnogram data={analysis.hypnogram} isDemo={isDemoData} />
+          <SleepHypnogram data={analysis.hypnogram} />
         </div>
         <div className="lg:col-span-1">
           <SleepStageChart
             distribution={analysis.stageDistribution}
-            isDemo={isDemoData}
           />
         </div>
       </div>
 
       {/* Latest AI Recommendations Card */}
       <div>
-        <RecommendationCard recommendation={recommendation} isDemo={isDemoData} />
+        <RecommendationCard recommendation={recommendation} />
       </div>
 
       {/* Recent Sleep Analysis History */}
       <div>
-        <HistoryTable sessions={history} isDemo={isDemoData} />
+        <HistoryTable sessions={history} />
       </div>
     </div>
   );

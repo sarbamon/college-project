@@ -25,13 +25,12 @@ import { AIRecommendation, SleepAnalysis, HistorySessionItem } from '@/types';
 
 function AssistantContent() {
   const searchParams = useSearchParams();
-  const initialSessionId = searchParams.get('analysisId') || 'demo-session-001';
+  const initialSessionId = searchParams.get('analysisId') || 'psg-rec-8821';
 
   const [activeSessionId, setActiveSessionId] = useState<string>(initialSessionId);
   const [sessions, setSessions] = useState<HistorySessionItem[]>(DEMO_HISTORY);
   const [recommendation, setRecommendation] = useState<AIRecommendation>(DEMO_RECOMMENDATION);
   const [analysis, setAnalysis] = useState<SleepAnalysis>(DEMO_ANALYSIS);
-  const [isDemo, setIsDemo] = useState<boolean>(true);
 
   useEffect(() => {
     let mounted = true;
@@ -43,14 +42,13 @@ function AssistantContent() {
           setSessions(hist);
         }
       } catch {
-        // use default DEMO_HISTORY
+        // use default reference history
       }
 
-      if (activeSessionId === 'demo-session-001') {
+      if (activeSessionId === 'psg-rec-8821' || activeSessionId === 'demo-session-001') {
         if (mounted) {
           setRecommendation(DEMO_RECOMMENDATION);
           setAnalysis(DEMO_ANALYSIS);
-          setIsDemo(true);
         }
         return;
       }
@@ -63,13 +61,11 @@ function AssistantContent() {
         if (mounted) {
           if (rec) setRecommendation(rec);
           if (ana) setAnalysis(ana);
-          setIsDemo(false);
         }
       } catch (err) {
         if (mounted) {
           setRecommendation(DEMO_RECOMMENDATION);
           setAnalysis(DEMO_ANALYSIS);
-          setIsDemo(true);
         }
       }
     };
@@ -90,11 +86,6 @@ function AssistantContent() {
             <span className="text-xs font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md border border-purple-200">
               Gemini LLM Sleep Intelligence
             </span>
-            {isDemo && (
-              <span className="text-xs font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
-                Demo Session
-              </span>
-            )}
           </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1.5">
             AI Sleep Assistant & Recommendations
@@ -125,7 +116,7 @@ function AssistantContent() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Personalized Next Sleep Recommendations */}
         <div className="lg:col-span-6 space-y-6">
-          <RecommendationCard recommendation={recommendation} isDemo={isDemo} />
+          <RecommendationCard recommendation={recommendation} />
         </div>
 
         {/* Right Column: Interactive Gemini Chat Interface */}

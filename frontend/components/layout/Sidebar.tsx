@@ -33,7 +33,7 @@ const NAV_ITEMS = [
   },
   {
     name: 'Sleep Analysis',
-    href: '/analysis/demo-session-001',
+    href: '/analysis/psg-rec-8821',
     icon: Activity,
   },
   {

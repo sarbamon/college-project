@@ -45,11 +45,6 @@ export default function HistoryPage() {
             <span className="text-xs font-bold uppercase tracking-wider text-brand-primary bg-blue-50 px-2.5 py-1 rounded-md border border-blue-200">
               Audit & Longitudinal Archive
             </span>
-            {isDemo && (
-              <span className="text-xs font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
-                Demo Records
-              </span>
-            )}
           </div>
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1.5">
             Sleep Analysis History
@@ -79,7 +74,7 @@ export default function HistoryPage() {
       </div>
 
       {/* Main Table */}
-      <HistoryTable sessions={sessions} isDemo={isDemo} />
+      <HistoryTable sessions={sessions} />
     </div>
   );
 }

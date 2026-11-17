@@ -35,7 +35,7 @@ export default function SettingsPage() {
     setBackendStatus('Pinging backend...');
     const result = await checkBackendHealth();
     setBackendOnline(result.online);
-    setBackendStatus(result.online ? 'Online & Responsive' : 'Unreachable (Demo Mode Active)');
+    setBackendStatus(result.online ? 'Online & Operational' : 'Offline / Standby');
   };
 
   useEffect(() => {

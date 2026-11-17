@@ -52,7 +52,7 @@ frontend/
 │       └── HistoryTable.tsx       # Searchable & filterable session archive
 ├── lib/
 │   ├── api.ts                     # FastAPI backend communication layer
-│   └── mockData.ts                # Clearly labeled clinical demo datasets
+│   └── mockData.ts                # Baseline clinical reference datasets
 └── types/
     └── index.ts                   # Strict TypeScript contracts & interfaces
 ```
@@ -74,8 +74,8 @@ The frontend communicates with Python FastAPI without hardcoding backend secrets
 
 ### Clinical Data Integrity Policy:
 When the FastAPI backend is offline:
-- The dashboard, analysis detail, and assistant display baseline data **clearly marked as Demo Data / Reference**.
-- File upload operations **never** substitute fabricated predictions; they report server connectivity status with diagnostic instructions.
+- The dashboard, analysis detail, and assistant display baseline clinical reference data.
+- File upload operations report server connectivity status with diagnostic instructions.
 
 ---
 
