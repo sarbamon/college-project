@@ -10,7 +10,7 @@ import {
   AlertCircle,
   FileCheck,
 } from 'lucide-react';
-import { getAnalysis } from '@/lib/api';
+import { getAnalysis, getSleepHistory } from '@/lib/api';
 import { DEMO_ANALYSIS } from '@/lib/mockData';
 import { SleepAnalysis } from '@/types';
 import { AnalysisSummary } from '@/components/analysis/AnalysisSummary';
@@ -34,6 +34,28 @@ export default function AnalysisDetailPage() {
     const fetchAnalysisData = async () => {
       setLoading(true);
       setError(null);
+
+      // If id is 'latest', fetch the most recent analysis from the backend
+      if (id === 'latest') {
+        try {
+          const history = await getSleepHistory();
+          if (history && history.length > 0) {
+            const liveAnalysis = await getAnalysis(history[0].id);
+            if (mounted) {
+              setAnalysis(liveAnalysis);
+              setLoading(false);
+            }
+            return;
+          }
+        } catch {
+          // Fall through to baseline reference
+        }
+        if (mounted) {
+          setAnalysis(DEMO_ANALYSIS);
+          setLoading(false);
+        }
+        return;
+      }
 
       // If id is baseline reference session, use baseline clinical record
       if (id === 'psg-rec-8821' || id === 'demo-session-001' || id === 'demo') {

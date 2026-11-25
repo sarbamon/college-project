@@ -1,6 +1,21 @@
 import { SleepAnalysis, AIRecommendation, HistorySessionItem } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+function getApiBaseUrl(): string {
+  const defaultUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  if (typeof window === 'undefined') return defaultUrl;
+  try {
+    const saved = localStorage.getItem('eeg_sleep_settings');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.backendUrl && typeof parsed.backendUrl === 'string') {
+        return parsed.backendUrl.replace(/\/+$/, '');
+      }
+    }
+  } catch {
+    // ignore storage errors
+  }
+  return defaultUrl;
+}
 
 class ApiError extends Error {
   status: number;
@@ -15,11 +30,12 @@ class ApiError extends Error {
  * Checks connectivity to the FastAPI backend.
  */
 export async function checkBackendHealth(): Promise<{ status: string; online: boolean }> {
+  const apiUrl = getApiBaseUrl();
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-    const res = await fetch(`${API_BASE_URL}/health`, {
+    const res = await fetch(`${apiUrl}/health`, {
       method: 'GET',
       signal: controller.signal,
     });
@@ -31,7 +47,7 @@ export async function checkBackendHealth(): Promise<{ status: string; online: bo
     }
     return { status: `HTTP ${res.status}`, online: false };
   } catch (err) {
-    return { status: 'Backend unreachable (http://localhost:8000)', online: false };
+    return { status: `Backend unreachable (${apiUrl})`, online: false };
   }
 }
 
@@ -43,6 +59,7 @@ export async function uploadEEG(
   file: File,
   onProgress?: (progress: number) => void
 ): Promise<SleepAnalysis> {
+  const apiUrl = getApiBaseUrl();
   const formData = new FormData();
   formData.append('file', file);
 
@@ -51,7 +68,7 @@ export async function uploadEEG(
   }
 
   try {
-    const res = await fetch(`${API_BASE_URL}/analyze`, {
+    const res = await fetch(`${apiUrl}/analyze`, {
       method: 'POST',
       body: formData,
     });
@@ -82,7 +99,7 @@ export async function uploadEEG(
       throw err;
     }
     throw new ApiError(
-      `Failed to connect to FastAPI backend at ${API_BASE_URL}. Ensure the Python server is running: ${err.message}`,
+      `Failed to connect to FastAPI backend at ${apiUrl}. Ensure the Python server is running: ${err.message}`,
       503
     );
   }
@@ -93,8 +110,9 @@ export async function uploadEEG(
  * GET http://localhost:8000/analysis/{analysisId}
  */
 export async function getAnalysis(analysisId: string): Promise<SleepAnalysis> {
+  const apiUrl = getApiBaseUrl();
   try {
-    const res = await fetch(`${API_BASE_URL}/analysis/${analysisId}`, {
+    const res = await fetch(`${apiUrl}/analysis/${analysisId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -109,7 +127,7 @@ export async function getAnalysis(analysisId: string): Promise<SleepAnalysis> {
     return await res.json();
   } catch (err: any) {
     if (err instanceof ApiError) throw err;
-    throw new ApiError(`Unable to fetch analysis from ${API_BASE_URL}: ${err.message}`, 503);
+    throw new ApiError(`Unable to fetch analysis from ${apiUrl}: ${err.message}`, 503);
   }
 }
 
@@ -118,8 +136,9 @@ export async function getAnalysis(analysisId: string): Promise<SleepAnalysis> {
  * GET http://localhost:8000/history
  */
 export async function getSleepHistory(): Promise<HistorySessionItem[]> {
+  const apiUrl = getApiBaseUrl();
   try {
-    const res = await fetch(`${API_BASE_URL}/history`, {
+    const res = await fetch(`${apiUrl}/history`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +153,7 @@ export async function getSleepHistory(): Promise<HistorySessionItem[]> {
     return await res.json();
   } catch (err: any) {
     if (err instanceof ApiError) throw err;
-    throw new ApiError(`Unable to fetch history from ${API_BASE_URL}: ${err.message}`, 503);
+    throw new ApiError(`Unable to fetch history from ${apiUrl}: ${err.message}`, 503);
   }
 }
 
@@ -143,8 +162,9 @@ export async function getSleepHistory(): Promise<HistorySessionItem[]> {
  * GET http://localhost:8000/recommendations/{analysisId}
  */
 export async function getRecommendations(analysisId: string): Promise<AIRecommendation> {
+  const apiUrl = getApiBaseUrl();
   try {
-    const res = await fetch(`${API_BASE_URL}/recommendations/${analysisId}`, {
+    const res = await fetch(`${apiUrl}/recommendations/${analysisId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -159,7 +179,7 @@ export async function getRecommendations(analysisId: string): Promise<AIRecommen
     return await res.json();
   } catch (err: any) {
     if (err instanceof ApiError) throw err;
-    throw new ApiError(`Unable to fetch recommendations from ${API_BASE_URL}: ${err.message}`, 503);
+    throw new ApiError(`Unable to fetch recommendations from ${apiUrl}: ${err.message}`, 503);
   }
 }
 
@@ -171,8 +191,9 @@ export async function sendAssistantMessage(
   analysisId: string | null,
   message: string
 ): Promise<{ reply: string }> {
+  const apiUrl = getApiBaseUrl();
   try {
-    const res = await fetch(`${API_BASE_URL}/assistant/chat`, {
+    const res = await fetch(`${apiUrl}/assistant/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

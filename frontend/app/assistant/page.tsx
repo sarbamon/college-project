@@ -25,9 +25,9 @@ import { AIRecommendation, SleepAnalysis, HistorySessionItem } from '@/types';
 
 function AssistantContent() {
   const searchParams = useSearchParams();
-  const initialSessionId = searchParams.get('analysisId') || 'psg-rec-8821';
+  const paramSessionId = searchParams.get('analysisId');
 
-  const [activeSessionId, setActiveSessionId] = useState<string>(initialSessionId);
+  const [activeSessionId, setActiveSessionId] = useState<string>(paramSessionId || '');
   const [sessions, setSessions] = useState<HistorySessionItem[]>(DEMO_HISTORY);
   const [recommendation, setRecommendation] = useState<AIRecommendation>(DEMO_RECOMMENDATION);
   const [analysis, setAnalysis] = useState<SleepAnalysis>(DEMO_ANALYSIS);
@@ -36,16 +36,27 @@ function AssistantContent() {
     let mounted = true;
 
     const loadSessionData = async () => {
+      let targetId = activeSessionId;
+
       try {
         const hist = await getSleepHistory();
         if (mounted && hist && hist.length > 0) {
           setSessions(hist);
+          if (!targetId) {
+            targetId = hist[0].id;
+            setActiveSessionId(targetId);
+          }
         }
       } catch {
-        // use default reference history
+        // use default reference history if backend is offline
       }
 
-      if (activeSessionId === 'psg-rec-8821' || activeSessionId === 'demo-session-001') {
+      if (!targetId) {
+        targetId = 'psg-rec-8821';
+        if (mounted) setActiveSessionId(targetId);
+      }
+
+      if (targetId === 'psg-rec-8821' || targetId === 'demo-session-001') {
         if (mounted) {
           setRecommendation(DEMO_RECOMMENDATION);
           setAnalysis(DEMO_ANALYSIS);
@@ -55,14 +66,14 @@ function AssistantContent() {
 
       try {
         const [rec, ana] = await Promise.all([
-          getRecommendations(activeSessionId),
-          getAnalysis(activeSessionId),
+          getRecommendations(targetId),
+          getAnalysis(targetId),
         ]);
         if (mounted) {
           if (rec) setRecommendation(rec);
           if (ana) setAnalysis(ana);
         }
-      } catch (err) {
+      } catch {
         if (mounted) {
           setRecommendation(DEMO_RECOMMENDATION);
           setAnalysis(DEMO_ANALYSIS);
@@ -122,6 +133,7 @@ function AssistantContent() {
         {/* Right Column: Interactive Gemini Chat Interface */}
         <div className="lg:col-span-6">
           <AIChat
+            key={activeSessionId}
             analysisId={activeSessionId}
             initialExplanation={analysis?.aiExplanation}
           />
