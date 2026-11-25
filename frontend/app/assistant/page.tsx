@@ -101,9 +101,6 @@ function AssistantContent() {
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1.5">
             AI Sleep Assistant & Recommendations
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Clinical explanation of EEG sleep stage metrics and personalised habit adjustments.
-          </p>
         </div>
 
         {/* Session selector */}

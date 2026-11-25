@@ -49,9 +49,6 @@ export default function HistoryPage() {
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1.5">
             Sleep Analysis History
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Review past polysomnography sessions, architecture distributions, and model logs.
-          </p>
         </div>
 
         <div className="flex items-center space-x-2.5">

@@ -87,10 +87,6 @@ export default function DashboardPage() {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-2">
             Welcome to EEG Sleep AI
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
-            Automated electroencephalogram epoch analysis for sleep stage classification
-            paired with Gemini LLM personalised sleep recommendations.
-          </p>
         </div>
 
         <div className="flex items-center space-x-3">

@@ -144,20 +144,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             );
           })}
         </div>
-
-        {/* Research & Compliance Badge */}
-        <div className="p-4 m-3 rounded-xl bg-slate-50 border border-slate-200/60">
-          <div className="flex items-center space-x-2 text-slate-800 text-xs font-semibold">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>FastAPI + Gemini AI</span>
-          </div>
-          <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-            Polysomnography epoch scoring with LLM-assisted sleep hygiene explanation.
-          </p>
-          <div className="mt-2 text-[10px] font-mono text-slate-400">
-            MCA Research Project v1.0
-          </div>
-        </div>
       </aside>
     </>
   );

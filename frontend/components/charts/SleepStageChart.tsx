@@ -58,7 +58,6 @@ export const SleepStageChart: React.FC<SleepStageChartProps> = ({
       <div className="flex items-center justify-between mb-4">
         <div>
           <h4 className="text-sm font-semibold text-slate-900">{title}</h4>
-          <p className="text-xs text-slate-500">Breakdown of polysomnography epochs</p>
         </div>
       </div>
 

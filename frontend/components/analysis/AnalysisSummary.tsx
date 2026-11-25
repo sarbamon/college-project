@@ -215,19 +215,6 @@ export const AnalysisSummary: React.FC<AnalysisSummaryProps> = ({
           </div>
         </div>
       </div>
-
-      {/* AI Explanation block */}
-      {analysis.aiExplanation && (
-        <div className="p-4 rounded-xl bg-purple-50/50 border border-purple-200/80">
-          <div className="flex items-center space-x-2 text-purple-900 font-semibold text-xs mb-1.5">
-            <CheckCircle2 className="w-4 h-4 text-purple-600" />
-            <span>LLM Synthesis (Gemini AI Polysomnography Summary)</span>
-          </div>
-          <p className="text-xs text-purple-950 leading-relaxed">
-            {analysis.aiExplanation}
-          </p>
-        </div>
-      )}
     </div>
   );
 };

@@ -88,9 +88,6 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
           System & Profile Settings
         </h1>
-        <p className="text-xs text-slate-500 mt-1">
-          Configure researcher credentials, target sleep parameters, and FastAPI neural connection.
-        </p>
       </div>
 
       {savedSuccess && (
@@ -213,11 +210,6 @@ export default function SettingsPage() {
                 {backendStatus}
               </span>
             </div>
-
-            <p className="text-[11px] text-slate-400">
-              The frontend communicates directly with FastAPI endpoints (e.g., <code>/analyze</code>, <code>/assistant/chat</code>).
-              No secret API keys (e.g. Gemini API key) are stored in client code.
-            </p>
           </div>
         </div>
 
